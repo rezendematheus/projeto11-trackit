@@ -1,8 +1,25 @@
+import axios from "axios"
+import { useState } from "react"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 import logo from "../assets/logo.PNG"
 
+
 export default function Register() {
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [name, setUsername] = useState("")
+    const [image, setImage] = useState("")
+    function regist(e){
+        e.preventDefault()
+        axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up", {email, password, name, image})
+        .then(alert("Cadastro realizado!"))
+        .catch(err => console.log(err.response.data))
+        setEmail("")
+        setPassword("")
+        setUsername("")
+        setImage("")
+    }
     return (
         <Content>
             <div>
@@ -10,11 +27,11 @@ export default function Register() {
                 <h1>TrackIt</h1>
             </div>
 
-            <form onSubmit={""}>
-                <input type="email" placeholder="email" />
-                <input type="password" placeholder="senha" />
-                <input type="text" placeholder="nome" />
-                <input type="url" placeholder="foto" />
+            <form onSubmit={(e) => regist(e)}>
+                <input required type="email" placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                <input required type="password" placeholder="senha" value={password} onChange={(e) => setPassword(e.target.value)} />
+                <input required type="text" placeholder="nome" value={name} onChange={(e) => setUsername(e.target.value)} />
+                <input required type="url" placeholder="foto" value={image} onChange={(e) => setImage(e.target.value)} />
                 <button type="submit">Entrar</button>
             </form>
             <Link to="/">Já tem uma conta? Faça login!</Link>
