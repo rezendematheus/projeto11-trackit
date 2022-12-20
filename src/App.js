@@ -1,20 +1,21 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import {BrowserRouter, Routes, Route} from "react-router-dom"
-import userContext from "./components/userContext";
+import UserContext from "./components/UserContext";
 import Habitos from "./pages/HabitosPage";
 import Historico from "./pages/HistoricoPage";
 import Hoje from "./pages/HojePage";
 import Login from "./pages/LoginPage";
 import Register from "./pages/RegisterPage";
 import React from "react";
+import Header from "./components/Header";
 
 function App() {
   const [userdata, setUserdata] = useState()
-  const UserData = React.createContext(userContext)
   userdata && console.log(userdata);
   return (
-    <UserData.Provider value={userdata}>
+    <UserContext.Provider value={userdata}>
       <BrowserRouter>
+        {userdata && <Header />}
         <Routes>
             <Route path="/" element={<Login setUserdata={setUserdata}/>}/>
             <Route path="/cadastro" element={<Register/>}/>
@@ -23,7 +24,7 @@ function App() {
             <Route path="/historico" element={<Historico />}/>
         </Routes>
       </BrowserRouter>
-    </UserData.Provider>
+    </UserContext.Provider>
   );
 }
 
